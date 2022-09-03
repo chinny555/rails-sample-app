@@ -5,7 +5,6 @@ tasks:
     - docker/build:
         image: test-demo
         tags: ["${CI_COMMIT_SHA:0:8}", "latest", "${CI_REPO_BRANCH}"]
-    steps:
     - commands:
       - bundle exec rspec
     - reports/html: 
