@@ -5,8 +5,42 @@ tasks:
     - docker/build:
         image: test-demo
         tags: ["${CI_COMMIT_SHA:0:8}", "latest", "${CI_REPO_BRANCH}"]
+
+  rspec:
+    runner:
+      containers:
+      - image: razorci/ruby:3.0
+      - image: postgres:9.6
+        environment:
+        - POSTGRES_DB=docker
+        - POSTGRES_USER=root
+        - POSTGRES_PASSWORD=secret
+        options:
+        - --name=postgres
+    steps:
+    - checkout
+    - cache/pull:
+        key: bundle-{{ checksum "Gemfile.lock" }}
+
     - commands:
-      - bundle exec rake test
+      - gem --version && ruby --version
+      - gem install bundler:2.3.15
+      - bundle --version
+
+    - run: bundle install --path vendor/bundle || bundle check
+
+    - commands:
+      - bundle exec rake db:migrate
+      - bundle exec rspec
+    - cache/push:
+        key: bundle-{{ checksum "Gemfile.lock" }}
+        paths: [vendor/bundle]
+
     - reports/html: 
         dir: coverage
         index: index.html
+    - reports/junit:
+      - rspec.xml
+
+    - run: docker logs postgres
+      when: on_fail
