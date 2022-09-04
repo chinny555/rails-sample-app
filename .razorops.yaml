@@ -6,7 +6,7 @@ tasks:
         image: test-demo
         tags: ["${CI_COMMIT_SHA:0:8}", "latest", "${CI_REPO_BRANCH}"]
     - commands:
-      - bundle exec rspec
+      - bundle exec rake test
     - reports/html: 
         dir: coverage
         index: index.html
