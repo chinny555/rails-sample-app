@@ -12,7 +12,7 @@ tasks:
       - image: razorci/ruby:3.0
       - image: postgres:9.6
         environment:
-        - POSTGRES_DB=docker
+        - POSTGRES_DB=rails_sample_app_test
         - POSTGRES_USER=root
         - POSTGRES_PASSWORD=secret
         options:
