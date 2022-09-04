@@ -21,6 +21,4 @@ ADD ./ $APP_HOME
 WORKDIR $APP_HOME
 
 RUN cp config/database.yml.example config/database.yml
-
-RUN RAILS_GROUPS=assets RAILE_ENV=production bundle exec rake assets:precompile
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+RUN bundle exec rake test
