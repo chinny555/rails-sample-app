@@ -6,7 +6,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.lis
 RUN apt-get update && apt-get install -qq -y --no-install-recommends build-essential nodejs libpq-dev git yarn
 
 
-ENV RAILS_ENV=development RACK_ENV=development SECRET_KEY_BASE=xpto APP_HOME=/app/
+ENV RAILS_ENV=test RACK_ENV=test SECRET_KEY_BASE=xpto APP_HOME=/app/
 
 ADD Gemfile* $APP_HOME
 RUN bundle config set without 'test development'
